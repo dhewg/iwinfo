@@ -69,6 +69,8 @@
 #define IWINFO_FREQ_NO_80MHZ		(1 << 4)
 #define IWINFO_FREQ_NO_160MHZ		(1 << 5)
 #define IWINFO_FREQ_NO_HE		(1 << 6)
+#define IWINFO_FREQ_NO_IR		(1 << 7)
+#define IWINFO_FREQ_NO_OUTDOOR		(1 << 8)
 
 extern const char * const IWINFO_80211_NAMES[IWINFO_80211_COUNT];
 extern const char * const IWINFO_BAND_NAMES[IWINFO_BAND_COUNT];

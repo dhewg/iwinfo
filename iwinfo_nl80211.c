@@ -3012,10 +3012,16 @@ static int nl80211_get_freqlist_cb(struct nl_msg *msg, void *arg)
 					e->mhz = nla_get_u32(freqs[NL80211_FREQUENCY_ATTR_FREQ]);
 					e->channel = nl80211_freq2channel(e->mhz);
 
-					e->restricted = (
-						freqs[NL80211_FREQUENCY_ATTR_NO_IR] &&
-						!freqs[NL80211_FREQUENCY_ATTR_RADAR]
-					) ? 1 : 0;
+					e->restricted = ((freqs[NL80211_FREQUENCY_ATTR_NO_IR] &&
+							 !freqs[NL80211_FREQUENCY_ATTR_RADAR]) ||
+							 freqs[NL80211_FREQUENCY_ATTR_INDOOR_ONLY]) ? 1 : 0;
+
+					if (freqs[NL80211_FREQUENCY_ATTR_NO_IR] &&
+					    !freqs[NL80211_FREQUENCY_ATTR_RADAR])
+						e->flags |= IWINFO_FREQ_NO_IR;
+
+					if (freqs[NL80211_FREQUENCY_ATTR_INDOOR_ONLY])
+						e->flags |= IWINFO_FREQ_NO_OUTDOOR;
 
 					if (freqs[NL80211_FREQUENCY_ATTR_NO_HT40_MINUS])
 						e->flags |= IWINFO_FREQ_NO_HT40MINUS;
